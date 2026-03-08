@@ -1,20 +1,33 @@
 # Crozync
 
-> Cross-platform real-time sync app
+<p align="center">
+  <strong>Cross the distance. Stay in sync.</strong>
+</p>
 
-## Stack
+**Crozync** is a real-time sync app for long-distance couples.
+It keeps you connected across timezones — shared moments, status, and presence on the channels you already live in.
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React Native (Expo) + TypeScript |
-| Backend | FastAPI (Python) |
-| Database | PostgreSQL |
-| Real-time | WebSocket + Redis |
-| Push Notifications | Expo Push API |
-| Auth | JWT |
-| Infra (dev) | Docker Compose |
-| Infra (prod) | AWS + Terraform |
+## How it works
+
+```
+Mobile App (React Native / Expo)
+        │
+        ▼
+┌───────────────────────────┐
+│         API Server         │
+│        (FastAPI)           │
+│                            │
+│  ┌──────────┐  ┌────────┐ │
+│  │ REST API │  │  WSS   │ │
+│  └──────────┘  └────────┘ │
+└──────────┬────────────────┘
+           │
+     ┌─────┴─────┐
+     │           │
+  PostgreSQL    Redis
+  (persistent) (pub/sub)
+```
 
 ## Getting Started
 
-Architecture details and setup instructions will be added as the project evolves.
+Setup guides and architecture details will be added as the project takes shape.
