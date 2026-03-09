@@ -212,7 +212,35 @@ GET    /hearts/today           # 今日のハート状況
 
 ---
 
+---
+
+## Realtime 設計（最終決定版）
+
+Supabase Realtime でテーブルの変更を購読する方式。
+
+### 購読テーブルと用途
+
+| テーブル | イベント | 用途 |
+|---|---|---|
+| `crozync_sessions` | UPDATE | status変化（pending→completed/expired）を検知 → screen03の状態更新 |
+| `stickers` | INSERT | 相手の投稿を検知 → screen02フィード更新 + 自分のターン通知 |
+| `hearts` | INSERT | ハート受信を検知 → screen01アニメーション表示 |
+
+### バックグラウンド時の通知
+アプリがバックグラウンドの場合は Supabase Realtime が届かないため、
+**Supabase Edge Functions から Expo Push 通知**を送信。
+
+| トリガー | 通知内容 |
+|---|---|
+| `POST /crozync/request` | 「Crozyncリクエストが届きました」 |
+| `stickers` INSERT | 「相手が写真を投稿しました（あなたのターンです）」 |
+| `hearts` INSERT | 「ハートが届きました」 |
+| おはよう/お休み時刻 | 「おはようございます / おやすみなさい」（Scheduled Edge Function） |
+
+---
+
 ## 次のアクション
 - [x] DB スキーマ設計
 - [x] API エンドポイント設計
-- [ ] WebSocket イベント設計
+- [x] Realtime イベント設計
+- [ ] 実装開始
