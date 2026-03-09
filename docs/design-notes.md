@@ -61,6 +61,80 @@
 
 ---
 
+## DB スキーマ（最終決定版）
+
+### users
+| カラム | 型 | 備考 |
+|---|---|---|
+| id | UUID PK | |
+| display_name | TEXT | |
+| email | TEXT UNIQUE | |
+| password_hash | TEXT | |
+| timezone | TEXT | 例: "Asia/Tokyo" |
+| wake_time | TIME | ユーザーのTZ基準 |
+| sleep_time | TIME | ユーザーのTZ基準 |
+| push_token | TEXT (nullable) | Expo Push通知用 |
+| avatar_url | TEXT (nullable) | |
+| created_at | TIMESTAMPTZ | |
+
+### pairs
+| カラム | 型 | 備考 |
+|---|---|---|
+| id | UUID PK | |
+| user_1_id | UUID FK → users | UUID小さい方 |
+| user_2_id | UUID FK → users | UUID大きい方 |
+| next_turn_user_id | UUID FK → users | 次に撮るべきユーザー |
+| created_at | TIMESTAMPTZ | |
+
+制約: `UNIQUE(user_1_id, user_2_id)`
+初回ターン: ペア成立時に招待した側（pair_invites.created_by_user_id）を next_turn_user_id にセット
+
+### pair_invites
+| カラム | 型 | 備考 |
+|---|---|---|
+| id | UUID PK | |
+| created_by_user_id | UUID FK → users | |
+| code | TEXT UNIQUE | QRに埋め込む6〜8桁 |
+| expires_at | TIMESTAMPTZ | 24時間 |
+| accepted_at | TIMESTAMPTZ (nullable) | ペア成立日時 |
+
+### stickers
+| カラム | 型 | 備考 |
+|---|---|---|
+| id | UUID PK | |
+| pair_id | UUID FK → pairs | |
+| user_id | UUID FK → users | 投稿者 |
+| image_url | TEXT | S3等 |
+| is_crozync | BOOLEAN | 同時撮影か |
+| crozync_session_id | UUID FK → crozync_sessions (nullable) | |
+| deleted_at | TIMESTAMPTZ (nullable) | 論理削除 |
+| created_at | TIMESTAMPTZ | |
+
+### crozync_sessions
+| カラム | 型 | 備考 |
+|---|---|---|
+| id | UUID PK | |
+| pair_id | UUID FK → pairs | |
+| requested_by_user_id | UUID FK → users | |
+| status | ENUM | pending / completed / expired |
+| requested_at | TIMESTAMPTZ | |
+| expires_at | TIMESTAMPTZ | requested_at + 3分 |
+| completed_at | TIMESTAMPTZ (nullable) | |
+
+### hearts
+| カラム | 型 | 備考 |
+|---|---|---|
+| id | UUID PK | |
+| from_user_id | UUID FK → users | |
+| to_user_id | UUID FK → users | |
+| type | ENUM | good_morning / good_night |
+| sent_at | TIMESTAMPTZ | |
+
+制約: `UNIQUE(from_user_id, type, DATE(sent_at))` — 1日1回制限
+
+---
+
 ## 次のアクション
-- [ ] DB スキーマ設計
+- [x] DB スキーマ設計
 - [ ] WebSocket イベント設計
+- [ ] API エンドポイント設計
