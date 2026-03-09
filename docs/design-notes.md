@@ -13,12 +13,14 @@
 
 ### 技術スタック
 - Frontend: React Native (Expo) + TypeScript
-- Backend: FastAPI (Python)
-- DB: PostgreSQL
-- Real-time: WebSocket + Redis
+- Backend: Supabase (Auth / Database / Storage / Realtime / Edge Functions)
+- DB: PostgreSQL (Supabase、RLS でアクセス制御)
+- Real-time: Supabase Realtime (Crozyncセッション状態)
+- Storage: Supabase Storage (写真)
 - Push: Expo Push API
-- Auth: JWT
-- Infra: Docker (dev) → AWS + Terraform (prod)
+- ビジネスロジック: Supabase Edge Functions (ターンチェック、1日1回制限等)
+
+※ FastAPI・Redis・Docker・Terraform は不採用（Supabase に統合）
 
 ---
 

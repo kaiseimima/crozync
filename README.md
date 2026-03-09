@@ -10,22 +10,15 @@ It keeps you connected across timezones — shared moments, status, and presence
 ## How it works
 
 ```
-Mobile App (React Native / Expo)
+Expo (React Native + TypeScript)
         │
         ▼
-┌───────────────────────────┐
-│         API Server         │
-│        (FastAPI)           │
-│                            │
-│  ┌──────────┐  ┌────────┐ │
-│  │ REST API │  │  WSS   │ │
-│  └──────────┘  └────────┘ │
-└──────────┬────────────────┘
-           │
-     ┌─────┴─────┐
-     │           │
-  PostgreSQL    Redis
-  (persistent) (pub/sub)
+   Supabase
+    ├── Auth      (認証)
+    ├── Database  (PostgreSQL + RLS)
+    ├── Storage   (写真)
+    ├── Realtime  (Crozyncセッション)
+    └── Edge Functions (ビジネスロジック)
 ```
 
 ## Getting Started
