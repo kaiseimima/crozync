@@ -134,7 +134,83 @@
 
 ---
 
+---
+
+## API エンドポイント設計（最終決定版）
+
+### 認証
+```
+POST   /auth/register
+POST   /auth/login             # JWT返す
+POST   /auth/logout
+```
+
+### ユーザー
+```
+GET    /users/me
+PATCH  /users/me               # timezone, wake_time, sleep_time, avatar等
+PATCH  /users/me/push-token    # Expo push token更新
+```
+
+### ペアリング
+```
+POST   /pairs/invite           # QRコード生成
+POST   /pairs/join             # QRスキャンしてペア成立
+GET    /pairs/me               # ホーム画面用リッチレスポンス（下記参照）
+DELETE /pairs/me               # ペア解除
+```
+
+`GET /pairs/me` レスポンス:
+```json
+{
+  "partner": {
+    "display_name": "...",
+    "avatar_url": "...",
+    "timezone": "America/Toronto"
+  },
+  "is_my_turn": true,
+  "active_crozync_session_id": "uuid or null"
+}
+```
+
+### スティッカー
+```
+GET    /stickers               # フィード（カーソルページネーション）
+POST   /stickers/upload-url    # S3 Presigned URL取得（有効期限5分）
+POST   /stickers               # 投稿（ターンチェック → 保存 → ターン更新）
+DELETE /stickers/{id}          # 論理削除
+```
+
+`POST /stickers` ロジック:
+1. `pairs.next_turn_user_id == current_user.id` を確認
+2. `stickers` に保存
+3. `pairs.next_turn_user_id` をパートナーIDに更新
+
+### Crozync セッション
+```
+POST   /crozync/request                  # セッション開始 → パートナーにPush通知
+GET    /crozync/session/{id}             # 状態取得（expires_at超過で自動expired化）
+POST   /crozync/session/{id}/accept      # パートナーが応答
+POST   /crozync/session/{id}/photo       # 写真アップロード（S3 URL）
+```
+
+`POST /crozync/request` レスポンス:
+```json
+{
+  "session_id": "uuid",
+  "expires_at": "2026-03-10T03:30:00Z"
+}
+```
+
+### ハート
+```
+POST   /hearts                 # 送信（1日1回チェック）
+GET    /hearts/today           # 今日のハート状況
+```
+
+---
+
 ## 次のアクション
 - [x] DB スキーマ設計
+- [x] API エンドポイント設計
 - [ ] WebSocket イベント設計
-- [ ] API エンドポイント設計
