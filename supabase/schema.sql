@@ -76,8 +76,7 @@ create table public.hearts (
   from_user_id  uuid not null references public.users(id) on delete cascade,
   to_user_id    uuid not null references public.users(id) on delete cascade,
   type          heart_type not null,
-  sent_at       timestamptz not null default now(),
-  constraint once_per_day unique (from_user_id, type, (sent_at::date))
+  sent_at       timestamptz not null default now()
 );
 
 -- ============================================
@@ -87,6 +86,8 @@ create index on public.stickers (pair_id, created_at desc) where deleted_at is n
 create index on public.crozync_sessions (pair_id, status);
 create index on public.pair_invites (code) where accepted_at is null;
 create index on public.hearts (to_user_id, sent_at desc);
+-- hearts: 1日1回制限（式インデックスで実現）
+create unique index hearts_once_per_day on public.hearts (from_user_id, type, (sent_at::date));
 
 -- ============================================
 -- RLS (Row Level Security)
