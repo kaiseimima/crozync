@@ -181,13 +181,13 @@ const styles = StyleSheet.create({
   qrFrame: {
     padding: 3,
     borderRadius: 16,
-    borderWidth: 2,
-    borderColor: 'rgba(236, 91, 19, 0.4)',
+    borderWidth: 2.5,
+    borderColor: 'rgba(236, 91, 19, 0.5)',
     shadowColor: colors.accent,
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.3,
-    shadowRadius: 20,
-    elevation: 10,
+    shadowOpacity: 0.5,
+    shadowRadius: 30,
+    elevation: 15,
   },
   qrBackground: {
     backgroundColor: '#FFFFFF',
