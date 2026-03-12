@@ -14,6 +14,7 @@ import HomeScreen from './screens/HomeScreen'
 import FeedScreen from './screens/FeedScreen'
 import CaptureScreen from './screens/CaptureScreen'
 import SessionScreen from './screens/SessionScreen'
+import SettingsScreen from './screens/SettingsScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -113,6 +114,7 @@ export default function App() {
                     <HomeScreen
                       onOpenFeed={() => navigation.navigate('Feed')}
                       onStartSession={() => navigation.navigate('Session')}
+                      onOpenSettings={() => navigation.navigate('Settings')}
                     />
                   )}
                 </Stack.Screen>
@@ -122,6 +124,11 @@ export default function App() {
                       onClose={() => navigation.navigate('Home')}
                       onCapture={() => navigation.navigate('SessionCapture')}
                     />
+                  )}
+                </Stack.Screen>
+                <Stack.Screen name="Settings">
+                  {({ navigation }) => (
+                    <SettingsScreen onBack={() => navigation.goBack()} />
                   )}
                 </Stack.Screen>
                 <Stack.Screen name="SessionCapture">

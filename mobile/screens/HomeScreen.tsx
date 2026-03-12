@@ -7,6 +7,7 @@ import { colors } from '../constants/colors'
 type Props = {
   onOpenFeed?: () => void
   onStartSession?: () => void
+  onOpenSettings?: () => void
 }
 
 type HeartInfo = {
@@ -28,7 +29,7 @@ function getMoodMessage(type: 'good_morning' | 'good_night'): string {
   return type === 'good_morning' ? 'Good Morning!' : 'Good Night!'
 }
 
-export default function HomeScreen({ onOpenFeed, onStartSession }: Props = {}) {
+export default function HomeScreen({ onOpenFeed, onStartSession, onOpenSettings }: Props = {}) {
   const [partnerTime, setPartnerTime] = useState('')
   const [partnerTimezone, setPartnerTimezone] = useState<string | null>(null)
   const [partnerLocation, setPartnerLocation] = useState('')
@@ -207,9 +208,9 @@ export default function HomeScreen({ onOpenFeed, onStartSession }: Props = {}) {
 
       {/* Header */}
       <View style={styles.header}>
-        <View style={styles.logoBox}>
-          <Text style={styles.logoLetter}>C</Text>
-        </View>
+        <TouchableOpacity style={styles.logoBox} onPress={onOpenSettings}>
+          <Text style={styles.logoLetter}>⚙️</Text>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.feedButton} onPress={onOpenFeed}>
           <Text style={styles.feedIcon}>🖼</Text>
         </TouchableOpacity>
@@ -279,10 +280,6 @@ export default function HomeScreen({ onOpenFeed, onStartSession }: Props = {}) {
       {/* Footer */}
       <Text style={styles.footer}>STAY SYNCED • STAY CLOSE</Text>
 
-      {/* Logout (dev) */}
-      <TouchableOpacity style={styles.logoutDev} onPress={() => supabase.auth.signOut()}>
-        <Text style={styles.logoutText}>Log out</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   )
 }
@@ -488,14 +485,5 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     letterSpacing: 4,
     marginBottom: 8,
-  },
-  logoutDev: {
-    alignSelf: 'center',
-    padding: 8,
-    marginBottom: 8,
-  },
-  logoutText: {
-    color: '#6b7280',
-    fontSize: 12,
   },
 })
