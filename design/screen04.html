@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Crozync - Pairing</title>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: '#ef8e39',
+            darkBg: '#0f172a',
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          borderRadius: {
+            'custom': '12px',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-animations">
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.02); }
+    }
+    .neon-glow {
+      box-shadow: 0 0 20px rgba(239, 142, 57, 0.3), 0 0 40px rgba(239, 142, 57, 0.1);
+    }
+    .sticker-texture {
+      background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+  </style>
+</head>
+<body class="bg-darkBg text-slate-200 font-sans min-h-screen flex flex-col items-center justify-between p-8 sticker-texture">
+<!-- BEGIN: Header -->
+<header class="w-full flex justify-center mt-8" data-purpose="app-branding">
+<h1 class="text-brand text-lg font-medium tracking-widest opacity-60 uppercase">Crozync</h1>
+</header>
+<!-- END: Header -->
+<!-- BEGIN: Main Pairing Section -->
+<main class="flex-1 flex flex-col items-center justify-center w-full max-w-sm" data-purpose="pairing-container">
+<!-- QR Code Container -->
+<div class="relative p-2" data-purpose="qr-frame">
+<!-- Soft Neon Frame -->
+<div class="absolute inset-0 border-2 border-brand/40 rounded-custom neon-glow animate-[pulse-soft_4s_infinite_ease-in-out]"></div>
+<!-- Decorative Sticker Elements (Cozy Aesthetic) -->
+<div class="absolute -top-4 -left-4 w-8 h-8 opacity-40">
+<svg class="text-brand" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="currentColor"></path>
+</svg>
+</div>
+<div class="absolute -bottom-2 -right-2 w-6 h-6 opacity-30">
+<svg class="text-brand" fill="currentColor" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+</svg>
+</div>
+<!-- QR Code Placeholder -->
+<div class="bg-white p-6 rounded-custom overflow-hidden shadow-inner relative z-10">
+<!-- Using a placeholder for the QR code image -->
+<img alt="Pairing QR Code" class="w-60 h-60 object-contain mix-blend-multiply opacity-90" data-purpose="pairing-qr" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw8cZCshqggIsm8xCusBgTX06VKYv52rpp4Wm2bi0LK16sSTwny1OvkFzHof_zkxvy3aeyleShBtQfKJpbZPLQTMvwOQWFqExwrbPHTfi_Ya8vrjm9S9JQUrSTNesNM8eNCBT0zccL3SUm9QAjsP7cQEwDA_K1K96_zguJhIA3QtV8-3OeZU9gxCSTLZCU1zrLF2YfdSl1WaJDYnMAqaQo_lMpggFCKFP57vqvubSb1AQcW2q1lad0dN_MTXX_QXGnzzj4oit8oQ7L"/>
+</div>
+</div>
+<!-- Instructions / Subtext -->
+<p class="mt-12 text-slate-400 text-sm font-light tracking-wide text-center max-w-[200px] leading-relaxed">
+      Share this code with your partner to sync your worlds
+    </p>
+</main>
+<!-- END: Main Pairing Section -->
+<!-- BEGIN: Action Footer -->
+<footer class="w-full pb-10 flex flex-col items-center gap-6" data-purpose="footer-actions">
+<!-- Scan Button -->
+<button class="flex items-center gap-3 px-8 py-4 bg-brand/10 border border-brand/30 rounded-custom hover:bg-brand/20 transition-all duration-300 group" data-purpose="scan-qr-button">
+<svg class="text-brand group-active:scale-95 transition-transform" fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M3 7V5a2 2 0 0 1 2-2h2"></path>
+<path d="M17 3h2a2 2 0 0 1 2 2v2"></path>
+<path d="M21 17v2a2 2 0 0 1-2 2h-2"></path>
+<path d="M7 21H5a2 2 0 0 1-2-2v-2"></path>
+<rect height="10" width="10" x="7" y="7"></rect>
+</svg>
+<span class="text-brand font-medium tracking-wide">Scan QR Code</span>
+</button>
+<!-- Subtle Navigation/Close Indicator -->
+<div class="w-12 h-1 bg-slate-800 rounded-full opacity-50"></div>
+</footer>
+<!-- END: Action Footer -->
+</body></html>

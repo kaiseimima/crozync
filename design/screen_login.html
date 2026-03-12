@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>body {
+    font-family: "Public Sans", sans-serif
+    }
+.sticker-glow {
+    box-shadow: 0 0 20px rgba(236, 91, 19, 0.15)
+    }
+.grain-overlay {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuB8WNZoiJv_giO8-pyNes_gTwubbWkXsD5rz1W7Wp2SUqGZ8UYsEW-80JwmhdsDeUZQlj_vLBHAotUrNEZPbY7q-h3243N5riMQR6AridQ3hQTLZMWQtansezeWmpY3DSvbo9EXCNRGzCKBH90aMH4eO1fPRbOM5nO3MTcxzC-IoufZfCQgy-qhWgGJUn4krNJorl-mpb3bboay-EQUSnlpEY3toBj1HaJsBunMAiMqcE6pYfJCylKk5mMHmNJ9jgNavfULizE2froV);
+    opacity: 0.03
+    }</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-display">
+<!-- Header / Branding -->
+<header class="flex items-center justify-between p-6">
+<div class="flex items-center gap-2">
+<div class="bg-primary/20 p-2 rounded-xl">
+<span class="material-symbols-outlined text-primary text-3xl">auto_stories</span>
+</div>
+<h1 class="text-2xl font-bold tracking-tight">Crozync</h1>
+</div>
+<button class="text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col items-center justify-center px-6 pb-12">
+<!-- Hero Visual Area -->
+<div class="relative w-full max-w-md aspect-square mb-12 flex items-center justify-center">
+<!-- Decorative "Sticker" Elements -->
+<div class="absolute inset-0 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="relative w-64 h-64 bg-background-light dark:bg-slate-800/50 rounded-xl border-4 border-white dark:border-slate-700 shadow-2xl rotate-3 flex items-center justify-center overflow-hidden sticker-glow" data-alt="A warm polaroid photo of a couple laughing together" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAkv9bdmbW8Q-OFACeHGdXFliAGFb5mLw1eSr75CSeMmohiLWelE6CmwA5F0Ufq-GdjwqB2aV3FQojwp_-jrtYSrVeSuofveSdvfRGBfCBToppvLOxilBhH8cohVVptfDjgygaMVrBKmDqTSTYn2-Lsq1aQPx67k68YwebyUQrWuccikeltQSZ9uKW5mn9NUdIVRBzCPHI1t8c-DzKJJIvLVCwO38rH-OuMHGoI8rxdf9KggMVZ1cr_msoAPZRDBsmoa6dQOfyOHUeh'); background-size: cover; background-position: center;">
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+</div>
+<div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary rounded-xl border-4 border-white dark:border-slate-700 shadow-xl -rotate-6 flex items-center justify-center text-white sticker-glow">
+<span class="material-symbols-outlined text-5xl">favorite</span>
+</div>
+</div>
+<!-- Text Context -->
+<div class="text-center mb-10">
+<h2 class="text-3xl font-bold mb-3">Begin your story</h2>
+<p class="text-slate-600 dark:text-slate-400 max-w-xs mx-auto">
+                Connect your worlds and sync your moments in a private digital diary.
+            </p>
+</div>
+<!-- Action Buttons -->
+<div class="w-full max-w-sm space-y-4">
+<!-- Scan Partner's QR -->
+<button class="w-full group relative flex items-center gap-4 p-5 bg-primary text-white rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] transition-transform">
+<div class="bg-white/20 p-3 rounded-lg">
+<span class="material-symbols-outlined text-3xl">qr_code_scanner</span>
+</div>
+<div class="text-left">
+<p class="font-bold text-lg leading-none">Scan Partner's QR</p>
+<p class="text-sm text-white/80">Join an existing diary</p>
+</div>
+<span class="material-symbols-outlined ml-auto opacity-50 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+</button>
+<!-- Create My Identity -->
+<button class="w-full group relative flex items-center gap-4 p-5 bg-background-light dark:bg-primary/10 border-2 border-primary/20 text-slate-900 dark:text-slate-100 rounded-xl hover:bg-primary/20 transition-colors">
+<div class="bg-primary/10 dark:bg-primary/20 p-3 rounded-lg">
+<span class="material-symbols-outlined text-3xl text-primary">person_add</span>
+</div>
+<div class="text-left">
+<p class="font-bold text-lg leading-none">Create My Identity</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">Start a new shared story</p>
+</div>
+<span class="material-symbols-outlined ml-auto text-primary/40 group-hover:text-primary transition-colors">add</span>
+</button>
+</div>
+</main>
+<!-- Bottom Decorative Navigation (Static for Entry) -->
+<nav class="flex justify-around items-center p-6 border-t border-slate-200 dark:border-primary/10 bg-background-light dark:bg-background-dark/80 backdrop-blur-md">
+<div class="flex flex-col items-center gap-1 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1">home</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Entry</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">photo_library</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Memories</span>
+</div>
+<div class="flex flex-col items-center gap-1 text-slate-400">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Setup</span>
+</div>
+</nav>
+<!-- Subtle Grain Overlay for Aesthetic -->
+<div class="fixed inset-0 pointer-events-none grain-overlay"></div>
+</body></html>

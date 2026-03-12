@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Crozync - Connection Dashboard</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Plus Jakarta Sans -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: '#ef8e39',
+            darkBg: '#121212',
+            surface: '#1e1e1e',
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          borderRadius: {
+            'twelve': '12px',
+          },
+          boxShadow: {
+            'neon': '0 0 15px rgba(239, 142, 57, 0.4)',
+            'neon-bright': '0 0 25px rgba(239, 142, 57, 0.6)',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="typography">
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .text-glow {
+      text-shadow: 0 0 10px rgba(239, 142, 57, 0.5);
+    }
+  </style>
+<style data-purpose="layout-animations">
+    @keyframes pulse-slow {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+    }
+    .animate-crozync {
+      animation: pulse-slow 3s infinite ease-in-out;
+    }
+    /* Sticker-book aesthetic borders */
+    .sticker-border {
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+    .sticker-border::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 1px solid rgba(239, 142, 57, 0.2);
+      border-radius: 16px;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body class="bg-darkBg text-gray-100 min-h-screen flex flex-col items-center justify-between p-6 overflow-hidden">
+<!-- BEGIN: Header Section -->
+<header class="w-full flex justify-between items-center mt-4" data-purpose="top-navigation">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded-twelve bg-brand/20 flex items-center justify-center sticker-border">
+<span class="text-brand font-extrabold text-xl">C</span>
+</div>
+</div>
+<!-- Small Navigation Icon for Photo Feed -->
+<button class="w-12 h-12 rounded-full bg-surface border border-white/5 flex items-center justify-center hover:bg-brand/10 transition-colors" data-purpose="feed-navigation-trigger">
+<svg class="text-brand/80" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><circle cx="9" cy="9" r="2"></circle><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path></svg>
+</button>
+</header>
+<!-- END: Header Section -->
+<!-- BEGIN: Local Time Display -->
+<main class="flex-1 flex flex-col items-center justify-center w-full gap-8">
+<section class="text-center" data-purpose="partner-time-display">
+<p class="text-gray-500 text-sm font-medium tracking-widest uppercase mb-1">Partner's Time</p>
+<h1 class="text-7xl font-extrabold text-white tracking-tighter" id="partner-time">
+        08:42
+      </h1>
+<p class="text-brand font-medium mt-2 flex items-center justify-center gap-2">
+<span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
+        London, UK
+      </p>
+</section>
+<!-- END: Local Time Display -->
+<!-- BEGIN: Sync Trigger Button -->
+<section class="relative" data-purpose="main-action-area">
+<button class="animate-crozync w-48 h-48 rounded-full bg-brand shadow-neon flex flex-col items-center justify-center transition-transform active:scale-95 group" id="sync-button">
+<div class="bg-white/20 p-4 rounded-full mb-2">
+<svg fill="none" height="40" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="40" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+</div>
+<span class="text-white font-black text-xl tracking-wide">CROZYNC</span>
+</button>
+<!-- Decorative sticker elements -->
+<div class="absolute -top-4 -right-4 rotate-12 opacity-80">
+<div class="bg-surface p-2 rounded-twelve sticker-border shadow-lg">✨</div>
+</div>
+</section>
+<!-- END: Sync Trigger Button -->
+<!-- BEGIN: Status Reaction Panel -->
+<section class="w-full max-w-xs" data-purpose="status-interaction">
+<div class="bg-surface p-5 rounded-twelve sticker-border flex items-center justify-between">
+<div class="flex flex-col">
+<span class="text-gray-400 text-xs font-bold uppercase tracking-wider">Morning Mood</span>
+<span class="text-white text-lg font-bold">Good Morning!</span>
+</div>
+<button class="w-12 h-12 rounded-full bg-brand/10 border border-brand/30 flex items-center justify-center text-brand transition-all hover:scale-110 active:scale-90 shadow-neon" data-purpose="heart-reaction">
+<svg fill="currentColor" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+</button>
+</div>
+</section>
+<!-- END: Status Reaction Panel -->
+</main>
+<!-- BEGIN: Footer Branding -->
+<footer class="mb-4 opacity-30 text-[10px] font-bold tracking-[0.3em] uppercase" data-purpose="footer-branding">
+    Stay Synced • Stay Close
+  </footer>
+<!-- END: Footer Branding -->
+<script data-purpose="time-update-logic">
+    /**
+     * Updates the displayed partner time every minute.
+     * Simulated for London time as requested by the UI design.
+     */
+    function updatePartnerTime() {
+      const timeElement = document.getElementById('partner-time');
+      const now = new Date();
+      // Adjusting to a dummy "Partner timezone"
+      const options = { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'Europe/London' };
+      const timeString = new Intl.DateTimeFormat('en-GB', options).format(now);
+      timeElement.textContent = timeString;
+    }
+
+    // Update time immediately and then every 30 seconds
+    updatePartnerTime();
+    setInterval(updatePartnerTime, 30000);
+  </script>
+<script data-purpose="haptic-feedback-simulation">
+    /**
+     * Simulates basic button interaction behavior.
+     */
+    const syncBtn = document.getElementById('sync-button');
+    syncBtn.addEventListener('click', () => {
+      syncBtn.classList.add('scale-95');
+      setTimeout(() => syncBtn.classList.remove('scale-95'), 100);
+      console.log('Crozync Initiated');
+      // In a real app, this would trigger the photo request flow
+    });
+  </script>
+</body></html>

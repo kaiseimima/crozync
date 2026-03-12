@@ -1,0 +1,8 @@
+Design the entire mobile app UI for 'Crozync,' a text-free, visual communication app for long-distance couples, friends, or family. The design should be minimalist, intimate, and evocative of a cozy, nostalgia-filled sticker book or photobook for pairing stickers. Use a dark theme with soft, warm neon accents.
+
+Key Screens and Elements to Generate:
+
+1.  **Home Dashboard:** Focus on an immediate view of the partner's local time, displayed large and clear. Feature a minimalist 'Good Morning/Good Night' notification-reaction panel where simple heart icons are sent. Add a prioritized button to initiate the daily 'Crozync' simultaneous photo request (limited to once per 24 hours). Provide a pathway to the full photo feed.
+2.  **Photo Diary Feed (Sticker Book):** A chronological grid of photos stylized to look like paired, physical visual stickers. It must visually depict the strict take-turns posting rule (e.g., visually showing which partner's turn it is). Crucially, display each daily 'Crozync' (the 2 photos taken simultaneously) as visually linked and integrated visual sticker pairs.
+3.  **Crozync Request/Session:** A specialized screen active when a request is sent, featuring a visible, stylized 3-minute countdown timer. Must clearly visualize the session state (waiting for partner, partner responded, timed out).
+4.  **Pairing and Other:** Include a visual for simple pairing via QR code. Text input must be almost entirely absent across the whole UI.

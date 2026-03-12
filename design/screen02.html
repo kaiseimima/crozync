@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Crozync - Photo Diary</title>
+<!-- Plus Jakarta Sans Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#ef8e39',
+            darkBg: '#0a0a0a',
+            surface: '#1a1a1a',
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          borderRadius: {
+            'custom': '12px',
+          },
+          boxShadow: {
+            'sticker': '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2)',
+            'sticker-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2)',
+            'glow-primary': '0 0 15px 2px rgba(239, 142, 57, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="sticker-aesthetics">
+    /* Simulating a physical sticker look with a white border and slight rotation */
+    .sticker-pair-container {
+      perspective: 1000px;
+    }
+    .sticker {
+      background-color: white;
+      padding: 4px;
+      transition: transform 0.2s ease-in-out;
+    }
+    .sticker-left {
+      transform: rotate(-2deg);
+      z-index: 10;
+    }
+    .sticker-right {
+      transform: rotate(3deg);
+      margin-left: -15px; /* Overlap effect */
+      z-index: 5;
+    }
+    .sticker-slot-empty {
+      border: 2px dashed #444;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    /* Hide scrollbar but keep functionality */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-darkBg text-white font-sans antialiased overflow-hidden">
+<!-- BEGIN: MainContainer -->
+<main class="flex flex-col h-screen w-full max-w-md mx-auto relative overflow-hidden">
+<!-- BEGIN: Header -->
+<header class="p-6 flex items-center justify-between" data-purpose="navigation">
+<!-- Back to Dashboard Link -->
+<a aria-label="Back" class="p-2 hover:bg-surface rounded-custom transition-colors" href="#">
+<svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="m15 18-6-6 6-6"></path></svg>
+</a>
+<!-- Minimalist Logo or Brand Mark -->
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+<div class="w-4 h-4 bg-white rounded-sm rotate-45"></div>
+</div>
+</header>
+<!-- END: Header -->
+<!-- BEGIN: Feed -->
+<div class="flex-1 overflow-y-auto px-6 pb-24 no-scrollbar" data-purpose="photo-grid">
+<!-- Current Day / Active Turn Block -->
+<section class="mb-10" data-purpose="current-turn">
+<div class="flex justify-center items-center py-4 sticker-pair-container">
+<!-- User's Slot (Active/Glowing) -->
+<div class="sticker sticker-left w-36 h-48 rounded-custom shadow-glow-primary border-2 border-primary/50 flex flex-col items-center justify-center bg-darkBg overflow-hidden">
+<div class="w-12 h-12 rounded-full border-2 border-primary border-t-transparent animate-spin mb-4"></div>
+<div class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
+<svg fill="none" height="20" stroke="#ef8e39" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+</div>
+</div>
+<!-- Partner's Slot (Waiting/Locked) -->
+<div class="sticker sticker-right w-36 h-48 rounded-custom shadow-sticker sticker-slot-empty flex items-center justify-center">
+<svg fill="none" height="24" stroke="#444" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><rect height="11" rx="2" ry="2" width="18" x="3" y="11"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+</div>
+</div>
+</section>
+<!-- Chronological History -->
+<div class="space-y-12">
+<!-- Day -1 -->
+<article class="flex justify-center items-center sticker-pair-container">
+<div class="sticker sticker-left w-32 h-44 rounded-custom shadow-sticker overflow-hidden">
+<img alt="My photo" class="w-full h-full object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbxnNdxyxB2AtFViSgINugQHisHvjjLXVhiSmin_Sxx_beDrEZsh896uHetp1lJqThqPb23kodBbLFXwyAt8KCrwvjKoS1epYgoQSjzwBDzHQvtGZIx0Vcx7oOu0xgSLiadBxJHfoT8VWk6J4ceFQYPdc9K63WJqZaNtAfkPEk1eIU6iywiNJQjNTfjo7MMuJt95Kz0U-JgGetPcBkyQlXrnN-L34HSqlS97QZcCSx8he43jFWGj-ntF7GnGmSpOgpwTPw9d_m71EM"/>
+</div>
+<div class="sticker sticker-right w-32 h-44 rounded-custom shadow-sticker overflow-hidden">
+<img alt="Partner photo" class="w-full h-full object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoUgVv9bz3Q3gWURGVrIjQ6n3hR53k8kXOSoR6JKR3sCTOBPySDl6AaNIkUGgmizfyOZkF6W9aMY_v6QoaGNyEDV41PkumwoCqrXBtTHo_4T1wjzTjRaSMtQkTQBWCG4iGYhCOGjZlgwC5hM6n6JMbTgU81GyVQwVo5AHx-UATPo0lwUlbneGwh3gQXFgXJIdE3uQHFkT_pFS_NJvNLrcvuOUSdODt30DL2qjXzrHqGIu-cGrZg-80R39Pz6aYe7vjVZucQuhcwphk"/>
+</div>
+</article>
+<!-- Day -2 -->
+<article class="flex justify-center items-center sticker-pair-container translate-x-2">
+<div class="sticker sticker-left w-32 h-44 rounded-custom shadow-sticker overflow-hidden rotate-[1deg]">
+<img alt="City photo" class="w-full h-full object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDE3M7_ypKR4UoSZq75H2qpwwun80Gk32l-HHgfzmWQgj5e6Mixu3RQwokcPcOaam3Rv3BQ0ydDQtl_E2TT_LmALB9qckBfUXZlUWOjQNBCSyPNHFGyPUusGqYz5oTRSJO8ogj0clivpA4tGyY4YCYTobe4-yYhTv0M14LnJziLZ9BX7jNpHGRu7ePFNr56s6gfBcyOC3_fXF4CREmBhBSRgHJT9tm3Lg8lURtzvGAeGlrDqhhnFCMn9JC0IWSXMvp289PMUnyrYD_3"/>
+</div>
+<div class="sticker sticker-right w-32 h-44 rounded-custom shadow-sticker overflow-hidden -rotate-[4deg]">
+<img alt="Park photo" class="w-full h-full object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD6Whc3kylLQyFMomt36xuz2HQd6Ia0WgXmIda4EBuJjiIlRGqTy6yXqs63c6n3QIEWd6tvKbHtEq6eh5cU5iei3IuX9WqQB0xqqoj4D6U2lmCwLMDNKd_lgU4QTxZ5u-SUduMRoK_-Gu9h7KKMRvRaaqmlUVZcnZRPFrbL6V-natlaYawuFdfujmUyDxwJuqos7qSuLjadPK5XfL0wK4gxNwnhYriRWxE6Xlq8bIUSgtkslVNctcB4gGTcZOYmcYVVMcy3rqA9mu1"/>
+</div>
+</article>
+<!-- Day -3 -->
+<article class="flex justify-center items-center sticker-pair-container -translate-x-3">
+<div class="sticker sticker-left w-32 h-44 rounded-custom shadow-sticker overflow-hidden rotate-[-5deg]">
+<img alt="Coffee photo" class="w-full h-full object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrjjyFw9i5wBjqZdc-gc5OdtMV1juCHEYf60S0whXwP0Tf7d0Dw7xR-3yG1Ruw7s6rD9CAV-ClmsWXrYcmobe_SsVeSiWR6bV2IEyAAKJe4jhgF27gfZ-wOMVPc7Vr6vW12Zljw81cdAgGRH8eVyKNbkzAGqtYkbtQ8_BQIUz0IdXlpxdaPfFEtneuUb3V4FJWPNvuJELk_-CGzkKfEvAQmB_mtrLF-umJFRUClPlPM1l3njef0uAOfRv87g96H2XQU8yv4JQYzNVo"/>
+</div>
+<div class="sticker sticker-right w-32 h-44 rounded-custom shadow-sticker overflow-hidden rotate-[2deg]">
+<img alt="Book photo" class="w-full h-full object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHpz9t2OeDJ8Si5Q00Vo0_qWf9P3qYdyBd2-9hKKFypD6KK00k9hqbh-KOGsyBktZ1l50z-_K1S5avdwCIbNGiwcT-iWJcPICmLBrscKp88q3G1yhX680D8LdXpFn3aZpWr_EPNPeXtzoIJXJRCpAkgxz8XBdyvgMfrW3PnziG_FB4JCvC9O9jJODLdgy1bclMjlzQYE6Bzaog0eqLr6qKWnqsv6RkjbYt6ASSYVWvlQPEbRJP2I-FvEDlebjOZeg5uPpXhj_MCL-F"/>
+</div>
+</article>
+<!-- Day -4 -->
+<article class="flex justify-center items-center sticker-pair-container">
+<div class="sticker sticker-left w-32 h-44 rounded-custom shadow-sticker overflow-hidden">
+<img alt="Sunset photo" class="w-full h-full object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCASVFX-ykbgWFv90fME8gdvAIqJUBTjiJJTAwiFbFKbHUXszIqA-lj3G40go3Cglhaqe4amk3Zs3HzAg8i1MAWnnmbDK1vXK6F7fZEfKrxlALG1_vlCsZw5V9woh6PiI_bIF5lO_EKudPCoUH_G0UOVxs0kktECCHVCNdNQOuHYvp8qLjDASZcXF4rBVxnAoz4Y57WFMlh7Y7OczRwAEmvyZwlxyCEW3No8UK1BHXI0_g8r4m4ytrTBIxmyVZDgjFH3b7Sgs0WaKti"/>
+</div>
+<div class="sticker sticker-right w-32 h-44 rounded-custom shadow-sticker overflow-hidden">
+<img alt="Stars photo" class="w-full h-full object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjqwxyqc4cXuaq3TzF0nLN1LEbIFdKa4KiUV0Z3JwYke6TG6J9HZ83zhhKfGtCK5Moyz4CXaVLnbbeAsjpUyYCCIWKzWCtjwHoareB7amuiXk3Fu2IjbdWEcB-mFv2gMD-u3GmJjn6hjaaAdg7WX_LYGlt6iRply70fmvkR5M2Kz9GfWFgbl99xJg2lM9QC5rJZpa6m2hAjd_yn_coO-DH0rcwTYdduqw06Y1ACVRmRiGbKvq8BIGLCF9XTm3G0O_fXWSENvqG7CVk"/>
+</div>
+</article>
+</div>
+</div>
+<!-- END: Feed -->
+<!-- BEGIN: Bottom Interaction Area -->
+<div class="absolute bottom-0 left-0 right-0 p-8 flex justify-center pointer-events-none" data-purpose="interaction-overlay">
+<!-- Floating Action Button for posting -->
+<button aria-label="Capture Sync" class="w-16 h-16 bg-primary rounded-full shadow-lg shadow-primary/30 flex items-center justify-center text-white pointer-events-auto active:scale-95 transition-transform">
+<svg fill="none" height="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24" width="32" xmlns="http://www.w3.org/2000/svg"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"></path><circle cx="12" cy="13" r="3"></circle></svg>
+</button>
+</div>
+<!-- END: Bottom Interaction Area -->
+</main>
+<!-- END: MainContainer -->
+</body></html>
