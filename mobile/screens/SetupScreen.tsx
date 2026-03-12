@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Alert, Platform } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
 import * as Notifications from 'expo-notifications'
 import { supabase } from '../lib/supabase'
 import { colors } from '../constants/colors'
@@ -9,19 +10,28 @@ type Props = {
   onComplete: () => void
 }
 
-const HOURS = Array.from({ length: 24 }, (_, i) => i)
-const MINUTES = [0, 15, 30, 45]
+function createTimeDate(h: number, m: number): Date {
+  const d = new Date()
+  d.setHours(h, m, 0, 0)
+  return d
+}
 
 function formatTime(h: number, m: number): string {
   return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`
 }
 
 export default function SetupScreen({ onComplete }: Props) {
-  const [wakeHour, setWakeHour] = useState(8)
-  const [wakeMin, setWakeMin] = useState(0)
-  const [sleepHour, setSleepHour] = useState(22)
-  const [sleepMin, setSleepMin] = useState(0)
+  const [wakeTime, setWakeTime] = useState(createTimeDate(8, 0))
+  const [sleepTime, setSleepTime] = useState(createTimeDate(22, 0))
   const [saving, setSaving] = useState(false)
+
+  function onWakeChange(_event: DateTimePickerEvent, date?: Date) {
+    if (date) setWakeTime(date)
+  }
+
+  function onSleepChange(_event: DateTimePickerEvent, date?: Date) {
+    if (date) setSleepTime(date)
+  }
 
   async function handleSave() {
     setSaving(true)
@@ -29,15 +39,17 @@ export default function SetupScreen({ onComplete }: Props) {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
 
-      const wakeTime = formatTime(wakeHour, wakeMin)
-      const sleepTime = formatTime(sleepHour, sleepMin)
+      const wH = wakeTime.getHours()
+      const wM = wakeTime.getMinutes()
+      const sH = sleepTime.getHours()
+      const sM = sleepTime.getMinutes()
 
       // Save to DB
       const { error } = await supabase
         .from('users')
         .update({
-          wake_time: wakeTime,
-          sleep_time: sleepTime,
+          wake_time: formatTime(wH, wM),
+          sleep_time: formatTime(sH, sM),
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
         })
         .eq('id', user.id)
@@ -48,7 +60,7 @@ export default function SetupScreen({ onComplete }: Props) {
       }
 
       // Request notification permission & schedule
-      await setupNotifications(wakeHour, wakeMin, sleepHour, sleepMin)
+      await setupNotifications(wH, wM, sH, sM)
 
       onComplete()
     } finally {
@@ -63,7 +75,6 @@ export default function SetupScreen({ onComplete }: Props) {
       return
     }
 
-    // Configure notification handler
     Notifications.setNotificationHandler({
       handleNotification: async () => ({
         shouldShowAlert: true,
@@ -74,10 +85,8 @@ export default function SetupScreen({ onComplete }: Props) {
       }),
     })
 
-    // Cancel existing scheduled notifications
     await Notifications.cancelAllScheduledNotificationsAsync()
 
-    // Schedule morning notification
     await Notifications.scheduleNotificationAsync({
       content: {
         title: '☀️ Good Morning!',
@@ -91,7 +100,6 @@ export default function SetupScreen({ onComplete }: Props) {
       },
     })
 
-    // Schedule night notification
     await Notifications.scheduleNotificationAsync({
       content: {
         title: '🌙 Good Night!',
@@ -121,97 +129,29 @@ export default function SetupScreen({ onComplete }: Props) {
         {/* Wake time */}
         <View style={styles.timeBlock}>
           <Text style={styles.timeBlockLabel}>☀️  Wake up</Text>
-          <View style={styles.pickerRow}>
-            {/* Hour */}
-            <View style={styles.pickerColumn}>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={() => setWakeHour((h) => (h + 1) % 24)}
-              >
-                <Text style={styles.arrow}>▲</Text>
-              </TouchableOpacity>
-              <Text style={styles.pickerValue}>{wakeHour.toString().padStart(2, '0')}</Text>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={() => setWakeHour((h) => (h - 1 + 24) % 24)}
-              >
-                <Text style={styles.arrow}>▼</Text>
-              </TouchableOpacity>
-            </View>
-
-            <Text style={styles.colon}>:</Text>
-
-            {/* Minute */}
-            <View style={styles.pickerColumn}>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={() => {
-                  const idx = MINUTES.indexOf(wakeMin)
-                  setWakeMin(MINUTES[(idx + 1) % MINUTES.length])
-                }}
-              >
-                <Text style={styles.arrow}>▲</Text>
-              </TouchableOpacity>
-              <Text style={styles.pickerValue}>{wakeMin.toString().padStart(2, '0')}</Text>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={() => {
-                  const idx = MINUTES.indexOf(wakeMin)
-                  setWakeMin(MINUTES[(idx - 1 + MINUTES.length) % MINUTES.length])
-                }}
-              >
-                <Text style={styles.arrow}>▼</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <DateTimePicker
+            value={wakeTime}
+            mode="time"
+            display="spinner"
+            onChange={onWakeChange}
+            minuteInterval={5}
+            themeVariant="dark"
+            style={styles.picker}
+          />
         </View>
 
         {/* Sleep time */}
         <View style={styles.timeBlock}>
           <Text style={styles.timeBlockLabel}>🌙  Sleep</Text>
-          <View style={styles.pickerRow}>
-            {/* Hour */}
-            <View style={styles.pickerColumn}>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={() => setSleepHour((h) => (h + 1) % 24)}
-              >
-                <Text style={styles.arrow}>▲</Text>
-              </TouchableOpacity>
-              <Text style={styles.pickerValue}>{sleepHour.toString().padStart(2, '0')}</Text>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={() => setSleepHour((h) => (h - 1 + 24) % 24)}
-              >
-                <Text style={styles.arrow}>▼</Text>
-              </TouchableOpacity>
-            </View>
-
-            <Text style={styles.colon}>:</Text>
-
-            {/* Minute */}
-            <View style={styles.pickerColumn}>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={() => {
-                  const idx = MINUTES.indexOf(sleepMin)
-                  setSleepMin(MINUTES[(idx + 1) % MINUTES.length])
-                }}
-              >
-                <Text style={styles.arrow}>▲</Text>
-              </TouchableOpacity>
-              <Text style={styles.pickerValue}>{sleepMin.toString().padStart(2, '0')}</Text>
-              <TouchableOpacity
-                style={styles.arrowButton}
-                onPress={() => {
-                  const idx = MINUTES.indexOf(sleepMin)
-                  setSleepMin(MINUTES[(idx - 1 + MINUTES.length) % MINUTES.length])
-                }}
-              >
-                <Text style={styles.arrow}>▼</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <DateTimePicker
+            value={sleepTime}
+            mode="time"
+            display="spinner"
+            onChange={onSleepChange}
+            minuteInterval={5}
+            themeVariant="dark"
+            style={styles.picker}
+          />
         </View>
 
         {/* Save */}
@@ -263,16 +203,15 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     marginBottom: 8,
   },
-  // Time blocks
   timeBlock: {
     width: '100%',
     backgroundColor: colors.surface,
     borderRadius: 16,
     borderWidth: 1,
     borderColor: colors.border,
-    padding: 20,
+    padding: 16,
     alignItems: 'center',
-    gap: 16,
+    gap: 8,
   },
   timeBlockLabel: {
     fontSize: 15,
@@ -280,36 +219,10 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     letterSpacing: 1,
   },
-  pickerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  picker: {
+    height: 120,
+    width: '100%',
   },
-  pickerColumn: {
-    alignItems: 'center',
-    gap: 4,
-  },
-  arrowButton: {
-    padding: 8,
-  },
-  arrow: {
-    fontSize: 16,
-    color: colors.accent,
-  },
-  pickerValue: {
-    fontSize: 40,
-    fontWeight: '800',
-    color: colors.textPrimary,
-    width: 64,
-    textAlign: 'center',
-  },
-  colon: {
-    fontSize: 36,
-    fontWeight: '700',
-    color: colors.textSecondary,
-    marginBottom: 4,
-  },
-  // Save
   saveButton: {
     width: '100%',
     backgroundColor: colors.accent,
