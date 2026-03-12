@@ -101,6 +101,15 @@ alter table public.hearts enable row level security;
 -- users: 自分のレコードのみ読み書き可能
 create policy "users: read own" on public.users
   for select using (auth.uid() = id);
+-- users: ペアの相手のレコードも読める
+create policy "users: read partner" on public.users
+  for select using (
+    exists (
+      select 1 from public.pairs
+      where (user_1_id = auth.uid() and user_2_id = users.id)
+         or (user_2_id = auth.uid() and user_1_id = users.id)
+    )
+  );
 create policy "users: update own" on public.users
   for update using (auth.uid() = id);
 

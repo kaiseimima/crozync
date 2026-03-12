@@ -116,10 +116,6 @@ export default function SetupScreen({ onComplete }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>CROZYNC</Text>
-      </View>
-
       <View style={styles.main}>
         <Text style={styles.title}>Set your schedule</Text>
         <Text style={styles.subtitle}>
@@ -172,23 +168,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  header: {
-    alignItems: 'center',
-    paddingTop: 24,
-  },
-  headerTitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: colors.accent,
-    letterSpacing: 6,
-    opacity: 0.6,
-  },
   main: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 32,
-    gap: 24,
+    paddingBottom: 60,
+    gap: 20,
   },
   title: {
     fontSize: 26,
