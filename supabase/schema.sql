@@ -113,6 +113,13 @@ create policy "pair_invites: insert own" on public.pair_invites
 -- pairs: 自分が属するペアのみ
 create policy "pairs: read own" on public.pairs
   for select using (auth.uid() = user_1_id or auth.uid() = user_2_id);
+create policy "pairs: insert" on public.pairs
+  for insert with check (auth.uid() = user_1_id or auth.uid() = user_2_id);
+
+-- pair_invites: 招待を受け入れる（accepted_at更新）
+create policy "pair_invites: update accepted" on public.pair_invites
+  for update using (true)
+  with check (accepted_at is not null);
 
 -- stickers: 自分のペアのもののみ
 create policy "stickers: read pair" on public.stickers
